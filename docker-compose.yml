@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   app:
-    image: test-app:latest # your image name
+    image: your-image-name:latest # your image name
     volumes:
-      - ./src/assets/file:/app/assets/file # example of mounting file to container
+      - ./src/assets:/app/src/assets # example of mounting file to container
     ports:
       - "3000:3000"
