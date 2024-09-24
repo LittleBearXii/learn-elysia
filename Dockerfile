@@ -1,4 +1,4 @@
-FROM oven/bun AS build
+FROM oven/bun:latest AS build
 
 WORKDIR /app
 
@@ -9,10 +9,26 @@ COPY tsconfig.json tsconfig.json
 
 RUN bun install
 
-COPY src src
+COPY ./src ./src
 
 ENV NODE_ENV=production
 
-CMD ["bun", "src/index.ts"]
+RUN bun build \
+	--compile \
+	--minify-whitespace \
+	--minify-syntax \
+	--target bun \
+	--outfile server \
+	./src/index.ts
+
+FROM gcr.io/distroless/base
+
+WORKDIR /app
+
+COPY --from=build /app/server server
+
+ENV NODE_ENV=production
+
+CMD ["./server"]
 
 EXPOSE 3000
