@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Styled Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .form-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+
+      textarea {
+        resize: none;
+        height: 100px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .submit-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Contact Us</h2>
+      <form
+        id="leadForm"
+        action="target_url"
+        method="POST"
+      >
+        <input type="hidden" name="oid" value="00D2v000000Wgwp" />
+        <input type="hidden" name="retURL" value="target_url" />
+
+        <label for="first_name">First Name</label
+        ><input
+          id="first_name"
+          maxlength="40"
+          name="first_name"
+          size="20"
+          type="text"
+        />
+
+        <label for="last_name">Last Name</label
+        ><input
+          id="last_name"
+          maxlength="80"
+          name="last_name"
+          size="20"
+          type="text"
+        />
+
+        <label for="phone">Phone</label
+        ><input id="phone" maxlength="40" name="phone" size="20" type="text" />
+
+        <label for="company">Company</label
+        ><input
+          id="company"
+          maxlength="40"
+          name="company"
+          size="20"
+          type="text"
+        />
+
+        <label for="email">Email</label
+        ><input id="email" maxlength="80" name="email" size="20" type="text" />
+
+        <label for="url">Website</label
+        ><input id="url" maxlength="80" name="url" size="20" type="text" />
+
+        Message to us:<textarea
+          id="00N2v00000UbJ2y"
+          name="00N2v00000UbJ2y"
+          type="text"
+          wrap="soft"
+        ></textarea>
+
+        <button type="submit" class="submit-btn">
+          Submit
+        </button>
+      </form>
+    </div>
+  </body>
+
+  <script>
+    document
+      .getElementById("leadForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        await sendMailAsync();
+
+        this.submit();
+      });
+
+    async function sendMailAsync() {
+      var email = document.getElementById("email").value;
+      const body = {
+        sendTo: email,
+      };
+
+      const response = await fetch("http://localhost:3000/mail/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (response.ok) {
+        console.log("Mail sent successfully");
+      } else {
+        console.error("Error sending mail");
+      }
+    }
+  </script>
+</html>
