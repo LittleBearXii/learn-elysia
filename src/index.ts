@@ -1,4 +1,5 @@
 import { Elysia, t } from "elysia";
+import { cors } from '@elysiajs/cors'
 import { swagger } from "@elysiajs/swagger";
 import { MailOptions } from "./models/mailOptions";
 import { SENDER } from "@/config";
@@ -32,6 +33,7 @@ const mailService = new Elysia({ prefix: "/mail" })
 );
 
 const app = new Elysia()
+  .use(cors())
   .use(swagger())
   .use(mailService)
   .listen(3000);
